@@ -16,6 +16,7 @@ return new class extends Migration{
             $table->integer('author_id');
             $table->integer('kategori_id');
             $table->string('nama');
+            $table->string('foto');
             $table->string('penerbit');
             $table->string('jml_buku');
             $table->text('isi');

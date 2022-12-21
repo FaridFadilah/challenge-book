@@ -17,6 +17,7 @@ class BukuSeeder extends Seeder{
             'author_id' => 1,
             'kategori_id' => 1,
             'nama' => 'apa ajah',
+            'foto' => 'apaaja.jpg',
             'penerbit' => 'erlangga',
             'jml_buku' => 10,
             'isi' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus debitis ea consequatur ipsam dolor'
@@ -25,6 +26,7 @@ class BukuSeeder extends Seeder{
             'author_id' => 1,
             'kategori_id' => 2,
             'nama' => 'aku bangga',
+            'foto' => 'akubangga.jpg',
             'penerbit' => 'erlangga',
             'jml_buku' => 4,
             'isi' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus debitis ea consequatur ipsam dolor sit ammet klores'
@@ -33,6 +35,7 @@ class BukuSeeder extends Seeder{
             'author_id' => 2,
             'kategori_id' => 2,
             'nama' => 'aku siapah',
+            'foto' => 'akusiapah.jpg',
             'penerbit' => 'murabuana',
             'jml_buku' => 4,
             'isi' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus debitis ea consequatur ipsam dolor sit ammet klores'
@@ -41,6 +44,7 @@ class BukuSeeder extends Seeder{
             'author_id' => 2,
             'kategori_id' => 1,
             'nama' => 'siapa ajah',
+            'foto' => 'siapajah.jpg',
             'penerbit' => 'miarabuanamedia',
             'jml_buku' => 4,
             'isi' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus debitis ea consequatur ipsam dolor sit ammet klores'
@@ -48,7 +52,8 @@ class BukuSeeder extends Seeder{
         Buku::create([
             'author_id' => 2,
             'kategori_id' => 2,
-            'nama' => 'siapa ajah',
+            'nama' => 'kapan ajah',
+            'foto' => 'kapanajah.jpg',
             'penerbit' => 'miarabuanamedia',
             'jml_buku' => 4,
             'isi' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus debitis ea consequatur ipsam dolor sit ammet klores'
