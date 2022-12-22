@@ -53,8 +53,34 @@ class AuthorController extends Controller{
     ]);
   }
 
+  public function update(Request $request, $id){
+    $getAllRequest = $request->all(); // membungkus semua request kedalam variabel getAllRequest
+    $getAuthors = Author::where('id', $id); // mengambil data author berdasarkan id yg diberikan dari parameter
+
+    unlink(public_path($getAuthors->first()->foto)); // ketika foto dikirim maka foto sebelum update akan dihapus dan diganti dengan foto terbaru
+    if($request->hasFile('img')){ 
+      $imgFile = $request->file('img'); // untuk mengambil request yang dikirim berupa file 
+      $imgName = time() . '-' . $imgFile->hashName(); 
+      // file yg telah dikirim akan diacak nama filenya sebelum disimpan di variabel getRequeast
+      $path = $request->getSchemeAndHttpHost() . "/img/" . $imgName; // nama file diacak lalu diawal sebelum nama file akan diberikan nama http host dan scheme 
+      $imgFile->move('img/', $imgName); // lalu file yang dikirim dari request akan disimpan difolder public/foto
+      $getAllRequest['img'] = $path; // setelah file disimpan didirektori public maka nama dari file yang direquest akan disimpan didalam variable getRequest dan nama file sebelumnya yang disimpan divariable request akan ditimpa dengan yang baru
+    } else{
+      $imgName = "default.jpg";
+    }
+
+    $getAuthors->update($getAllRequest); 
+    // lalu semua request yg telah dikirim disimpan database
+    return response()->json([
+      'status' => true,
+      'code' => 200,
+      'data' => $getAllRequest,
+    ]);
+  }
+
   public function delete($id){
     Author::where('id', $id)->delete();
+    unlink(public_path(Author::where('id', $id)->first()->foto));
     return response()->json([
       'status' => true,
       'code' => 200,

@@ -44,30 +44,30 @@ class BukuController extends Controller{
     }
 
     public function update(Request $request, $id){
-        $getRequest = $request->all();
-        $imgOld = Buku::where('id', $id)->first();
-        dd($getRequest);
+        $getRequest = $request->all(); // membungkus semua request kedalam variabel getRequest
+        $getBuku = Buku::where('id', $id); // mengambil data dari tabel buku berdasarkan id dari parameter
+        dd($request->all()); 
         if(!$getRequest){
             return response()->json([
                 'status' => false,
                 'code' => 400,
                 'message' => 'Data tidak boleh kosong',
                 'data' => [],
-            ], 400);
+            ], 400); // Jika request yang dikirim kosong maka akan mengembalikan response error
         }
 
-        unlink(public_path($imgOld));
+        unlink(public_path($getBuku->first()->foto)); // ketika foto dikirim maka buku sebelum update akan dihapus dan diganti dengan foto terbaru
         if($request->hasFile('foto')){
-            $imgFile = $request->file('foto');
-            $imgName = time() . '-' . $imgFile->hashName();
-            $path = $request->getSchemeAndHttpHost() . "/foto/" . $imgName;
-            $imgFile->move('foto/', $imgName);
-            $getRequest['foto'] = $path;
+            $imgFile = $request->file('foto'); // untuk mengambil request yang dikirim berupa file 
+            $imgName = time() . '-' . $imgFile->hashName(); // file yg telah dikirim akan diacak nama filenya sebelum disimpan di variabel getRequeast
+            $path = $request->getSchemeAndHttpHost() . "/foto/" . $imgName; // nama file diacak lalu diawal sebelum nama file akan diberikan nama http host dan scheme  
+            $imgFile->move('foto/', $imgName); // lalu file yang dikirim dari request akan disimpan difolder public/foto
+            $getRequest['foto'] = $path; // setelah file disimpan didirektori public maka nama dari file yang direquest akan disimpan didalam variable getRequest dan nama file sebelumnya yang disimpan divariable request akan ditimpa dengan yang baru
         } else{
             $getRequest['foto'] = "default.jpg";
         }
 
-        Buku::where('id', $id)->update($getRequest);
+        $getBuku->update($getRequest); // lalu semua request yg telah dikirim disimpan database
         return response()->json([
             'status' => true,
             'code' => 200,
