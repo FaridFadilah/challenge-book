@@ -14,7 +14,7 @@
       </tr>
     </thead>
     <tbody>
-      @foreach($getBuku as $data)
+      @foreach($getData as $data)
       <tr>
         <th>{{ $data['nama'] }}</th>
         <th>{{ $data['kategori']['nama'] }}</th>

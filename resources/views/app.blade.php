@@ -7,6 +7,9 @@
   <title>@yield('title')</title>
 </head>
 <body>
+  <a href="{{ route('buku.index') }}">Buku</a>
+  <a href="{{ route('author.index') }}">Author</a>
+  <a href="{{ route('buku.index') }}">kategori</a>
   @yield('content')
 </body>
 </html>

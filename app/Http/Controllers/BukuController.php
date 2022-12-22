@@ -9,9 +9,9 @@ class BukuController extends Controller{
     public function index(){
         $responseBuku = HttpClients::fetch('GET', 
         'http://127.0.0.1:1234/api/buku');
-        $getBuku = $responseBuku['data'];
+        $getData = $responseBuku['data'];
         // dd($getBuku);
-        return view('page.buku.index', compact('getBuku'));
+        return view('page.buku.index', compact('getData'));
     }
 
     public function create(Request $request){
