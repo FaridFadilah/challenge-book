@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', fn() => view('page.index'))->name('home');
+Route::prefix('buku')->controller(BukuController::class)->name('buku.')->group(function(){
+  Route::get('/', 'index')->name('index');
+  Route::get('/create', 'index')->name('create');
+});
 
-Route::get('/', [BukuController::class, 'index'])->name('home');
+Route::prefix('author')->controller(AuthorController::class)->name('author.')->group(function(){
+  Route::get('/', 'index')->name('index');
+  Route::get('/create', 'index')->name('create');
+});
 // Route::get('/');
