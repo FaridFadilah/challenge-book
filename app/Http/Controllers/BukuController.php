@@ -4,17 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Models\Author;
 use App\Models\Buku;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 
 class BukuController extends Controller{
     public function index(){
+        $author = Author::all();
+        $kategori = Kategori::all();
+        $bukus = Buku::all()->
+        map(function($buku) use ($author, $kategori){
+            $buku['author'] = $author->filter(fn($a) => $a->id == $buku->author_id)->first();
+            $buku->author->makeHidden(['id', 'foto', 'email', 'deskripsi', 'created_at', 'updated_at']);
+
+            $buku['kategori'] = $kategori->filter(fn($k) => $k->id == $buku->kategori_id)->first();
+            $buku->kategori->makeHidden(['id', 'deskripsi','created_at', 'updated_at']);
+            return $buku;
+        });
         return response()->json([
             'status' => true,
-            'data' => Buku::all()
-        ]);
+            'data' => $bukus
+        ]); 
     }
     public function store(Request $request){
-        $getRequest = $request->all();
+        $getRequest = $request->all(); 
         if(!$request->all()){
             return response()->json([
                 'status' => false,
@@ -46,7 +58,7 @@ class BukuController extends Controller{
     public function update(Request $request, $id){
         $getRequest = $request->all(); // membungkus semua request kedalam variabel getRequest
         $getBuku = Buku::where('id', $id); // mengambil data dari tabel buku berdasarkan id dari parameter
-        dd($request->all()); 
+        // dd($getBuku->first()); 
         if(!$getRequest){
             return response()->json([
                 'status' => false,
@@ -56,7 +68,6 @@ class BukuController extends Controller{
             ], 400); // Jika request yang dikirim kosong maka akan mengembalikan response error
         }
 
-        unlink(public_path($getBuku->first()->foto)); // ketika foto dikirim maka buku sebelum update akan dihapus dan diganti dengan foto terbaru
         if($request->hasFile('foto')){
             $imgFile = $request->file('foto'); // untuk mengambil request yang dikirim berupa file 
             $imgName = time() . '-' . $imgFile->hashName(); // file yg telah dikirim akan diacak nama filenya sebelum disimpan di variabel getRequeast
@@ -66,8 +77,10 @@ class BukuController extends Controller{
         } else{
             $getRequest['foto'] = "default.jpg";
         }
+        unlink(public_path($getBuku->first()->foto)); // ketika foto dikirim maka buku sebelum update akan dihapus dan diganti dengan foto terbaru
 
-        $getBuku->update($getRequest); // lalu semua request yg telah dikirim disimpan database
+        $getBuku->update($getRequest); 
+        // lalu semua request yg telah dikirim disimpan database
         return response()->json([
             'status' => true,
             'code' => 200,

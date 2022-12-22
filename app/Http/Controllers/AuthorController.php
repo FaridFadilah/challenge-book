@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Author;
+use App\Models\Buku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -20,6 +21,18 @@ class AuthorController extends Controller{
       'code' => 200,
       'message' => 'Success',
       'data' => $getData
+    ]);
+  }
+
+  public function getBukuByAuthor(){
+    $getBuku = Buku::all();
+    $getAuthor = Author::all()->map(function($author) use ($getBuku){
+      $author['buku'] = $getBuku->filter(fn($a) => $a->id == $author->id)->makeHidden(['id', 'deskripsi']);
+      return $author;
+    });
+
+    return response()->json([
+      'data' => $getAuthor 
     ]);
   }
   public function show($id){

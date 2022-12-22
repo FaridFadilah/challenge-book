@@ -29,7 +29,6 @@ class KategoriController extends Controller{
             'nama' => $request->nama,
             'deskripsi' => $request->deskripsi
         ]);
-
         return response()->json([
             'status' => true,
             'code' => 200,

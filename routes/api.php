@@ -40,12 +40,13 @@ Route::prefix('buku')->name('buku.')->controller(BukuController::class)->group(f
     Route::get('/author/{nama}', 'getBukuByAuthor')->name('getBukuByAuthor');
     Route::get('/kategori/{nama}', 'getBukuByKategori')->name('getBukuByKategori');
     Route::post('/', 'store')->name('store');
-    Route::post('/{id}', 'update')->name('update');
-    Route::delete('/{id}', 'delete')->name('delete');
+    Route::post('/{id}/edit', 'update')->name('update');
+    Route::post('/{id}/delete', 'delete')->name('delete');
 });
 // Route::resource('buku', BukuController::class);
 Route::prefix('author')->name('author.')->controller(AuthorController::class)->group(function(){
     Route::get('/', 'index')->name('index');
+    Route::get('/buku', 'getBukuByAuthor')->name('getBukuByAuthor');
     Route::post('/', 'store')->name('store');
     Route::get('/{id}', 'show')->name('show');
     Route::post('/{id}', 'update')->name('update');
