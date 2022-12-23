@@ -16,6 +16,8 @@ class HttpClients{
       }
       return $client->post($url, $body);
     }
-    return http::post($url, $body)->json();
+    if($method == 'PUT') return Http::put($url, $body)->json([]);
+    if($method == 'DELETE') return Http::delete($url, $body)->json([]);
+    return Http::post($url, $body)->json();
   }
 }

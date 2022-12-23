@@ -9,6 +9,7 @@
         <th>kategori</th>
         <th>foto</th>
         <th>penerbit</th>
+        <th>author</th>
         <th>qty</th>
         <th>isi</th>
       </tr>
@@ -20,10 +21,13 @@
         <th>{{ $data['kategori']['nama'] }}</th>
         <th>{{ $data['foto'] }}</th>
         <th>{{ $data['penerbit'] }}</th>
+        <th>{{ $data['author']['nama'] }}</th>
         <th>{{ $data['jml_buku'] }}</th>
         <th>{{ $data['isi'] }}</th>
       </tr>
       @endforeach
     </tbody>
   </table>
+
+  <a href="{{ route('buku.create') }}">Tambah</a>
 @endsection
