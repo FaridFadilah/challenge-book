@@ -25,6 +25,25 @@ class BukuController extends Controller{
             'data' => $bukus
         ]); 
     }
+    
+    public function show($id){
+        $author = Author::all();
+        $kategori = Kategori::all();
+        $getBuku = Buku::where('id', $id)->all();
+        // ->map(function($buku) use ($kategori, $author){
+        //     $buku['author'] = $author->filter(fn($a) => $a->id == $buku->author_id)->first();
+        //     $buku->author->makeHidden(['id', 'foto', 'email', 'deskripsi', 'created_at', 'updated_at']);
+
+        //     $buku['kategori'] = $kategori->filter(fn($k) => $k->id == $buku->kategori_id)->first();
+        //     $buku->kategori->makeHidden(['id', 'deskripsi','created_at', 'updated_at']);
+        // });
+        return response()->json([
+            'status' => true,
+            'code' => 200,
+            'data' => $getBuku
+        ]);
+    }
+
     public function store(Request $request){
         $getRequest = $request->all(); 
         if(!$request->all()){

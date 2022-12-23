@@ -22,5 +22,9 @@ class KategoriSeeder extends Seeder
             'nama' => 'komik',
             'deskripsi' => 'salah satu jenis karya sastra yang berbentuk prosa. Kisah di dalam novel merupakan hasil karya imajinasi yang membahas tentang permasalahan kehidupan seseorang atau berbagai tokoh.'
         ]);
+        kategori::create([
+            'nama' => 'romantis',
+            'deskripsi' => 'Sebenarnya ini adalah cerita yang berasal dari “imajinasi fans”. Biasanya memiliki karakter dari artis-artis seperti anggota boyband, band, aktor, dan lainnya.'
+        ]);
     }
 }

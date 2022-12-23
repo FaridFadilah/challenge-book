@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Author;
 use App\Models\Buku;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class AuthorController extends Controller{
   public function index(){
@@ -47,22 +46,23 @@ class AuthorController extends Controller{
   public function store(Request $request){
     $getAllRequest = $request->all();
     
-    if($request->hasFile('img')){
-      $imgFile = $request->file('img');
+    if($request->hasFile('foto')){
+      $imgFile = $request->file('foto');
       $imgName = time() . '-' . $imgFile->hashName();
-      $path = $request->getSchemeAndHttpHost() . "/img/" . $imgName;
-      $imgFile->move('img/', $imgName);
-      $getAllRequest['img'] = $path;
+      $path = $request->getSchemeAndHttpHost() . "/foto/" . $imgName;
+      $imgFile->move('foto/', $imgName);
+      $getAllRequest['foto'] = $path;
     } else{
       $imgName = "default.jpg";
     }
 
+    // dd($getAllRequest['img']);
     Author::create($getAllRequest);
     return response()->json([
       'status' => true,
       'code' => 200,
       'message' => 'success',
-      'data' => $request->all()
+      'data' => $getAllRequest
     ]);
   }
 
