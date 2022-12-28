@@ -29,7 +29,13 @@ class BukuController extends Controller{
     public function show($id){
         $author = Author::all();
         $kategori = Kategori::all();
-        $getBuku = Buku::where('id', $id)->all();
+        $getBuku['buku'] = $buku = Buku::where('id', $id)->first();
+
+        //show all object category in book data 
+        $getBuku['getBuku']['kategori'] = $category = Kategori::where("id", $buku->kategori_id)->get();
+
+        //show all object authors in book data 
+        $getBuku['getBuku']['author'] = $author = Author::where("id", $buku->author_id)->get();
         // ->map(function($buku) use ($kategori, $author){
         //     $buku['author'] = $author->filter(fn($a) => $a->id == $buku->author_id)->first();
         //     $buku->author->makeHidden(['id', 'foto', 'email', 'deskripsi', 'created_at', 'updated_at']);
@@ -76,8 +82,17 @@ class BukuController extends Controller{
 
     public function update(Request $request, $id){
         $getRequest = $request->all(); // membungkus semua request kedalam variabel getRequest
-        $getBuku = Buku::where('id', $id); // mengambil data dari tabel buku berdasarkan id dari parameter
+
+        // dd($request->all());
+        // die;
+        
+        $getBuku = Buku::where('id', $id)->first(); // mengambil data dari tabel buku berdasarkan id dari parameter
+
         // dd($getBuku->first()); 
+        $path = parse_url($getBuku->foto);
+
+        unlink(public_path() . $path['path']);
+        // ketika foto dikirim maka buku sebelum update akan dihapus dan diganti dengan foto terbaru
         if(!$getRequest){
             return response()->json([
                 'status' => false,
@@ -96,7 +111,7 @@ class BukuController extends Controller{
         } else{
             $getRequest['foto'] = "default.jpg";
         }
-        unlink(public_path($getBuku->first()->foto)); // ketika foto dikirim maka buku sebelum update akan dihapus dan diganti dengan foto terbaru
+        
 
         $getBuku->update($getRequest); 
         // lalu semua request yg telah dikirim disimpan database
@@ -109,7 +124,8 @@ class BukuController extends Controller{
     }
     public function delete($id){
         $getBuku = Buku::where('id', $id)->first();
-        unlink(public_path('img/' . $getBuku->foto));
+        $path = parse_url($getBuku->foto);
+        unlink(public_path() . $path['path']);
         $getBuku->delete();
         return response()->json([
             'status' => true, 
