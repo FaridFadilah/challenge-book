@@ -12,6 +12,7 @@
         <th>author</th>
         <th>qty</th>
         <th>isi</th>
+        <th>action</th>
       </tr>
     </thead>
     <tbody>
@@ -19,11 +20,18 @@
       <tr>
         <th>{{ $data['nama'] }}</th>
         <th>{{ $data['kategori']['nama'] }}</th>
-        <th>{{ $data['foto'] }}</th>
+        <th><img src="{{ $data['foto'] }}" alt="{{ $data['foto'] }}"></th>
         <th>{{ $data['penerbit'] }}</th>
         <th>{{ $data['author']['nama'] }}</th>
         <th>{{ $data['jml_buku'] }}</th>
         <th>{{ $data['isi'] }}</th>
+        <th>
+          <form method='POST' action="{{ route('buku.delete', $data['id']) }}">
+            @csrf @method('DELETE')
+            <a href="{{ route('buku.edit',$data['id']) }}">Edit</a>
+            <button type="submit">delete</button>
+          </form>
+        </th>
       </tr>
       @endforeach
     </tbody>

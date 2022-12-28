@@ -6,7 +6,7 @@
     @csrf
     <input placeholder="nama" type="text" name="nama">
     <input placeholder="foto" type="file" name="foto">
-    <input placeholder="email" type="text" name="email">
+    <input placeholder="email" type="email" name="email">
     <textarea placeholder="deskripsi" name="deskripsi"></textarea>
     <button type="submit">Kirim</button>
   </form>

@@ -22,7 +22,8 @@
         <th>{{ $data['email'] }}</th>
         <th>{{ $data['deskripsi'] }}</th>
         <th>
-          <form action="{{ route('author.delete', $data['id']) }}">
+          <form action="{{ route('author.delete', $data['id']) }}" method="POST">
+            @csrf @method("DELETE")
             <a href="{{ route('author.edit', $data['id']) }}">Ubah</a>
             <button type="submit">Delete</button>
           </form>

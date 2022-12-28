@@ -18,7 +18,8 @@ class KategoriController extends Controller{
 
     public function store(Request $request){
         // Http::post('http://localhost:1234/api/kategori', $request->all());
-        HttpClients::fetch('POST', 'http://localhost:1234/api/kategori', $request->all(), $request->file('foto'));
+        $getRequest = $request->all();
+        HttpClients::fetch('POST', 'http://localhost:1234/api/kategori', $getRequest);
         return redirect()->route('kategori.index');
     }
 

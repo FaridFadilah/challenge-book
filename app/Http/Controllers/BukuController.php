@@ -10,7 +10,8 @@ class BukuController extends Controller{
         $responseBuku = HttpClients::fetch('GET', 
         'http://127.0.0.1:1234/api/buku');
         $getData = $responseBuku['data'];
-        // dd($getBuku);
+        // dd($responseBuku);
+        // die;
         return view('page.buku.index', compact('getData'));
     }
 
@@ -23,20 +24,55 @@ class BukuController extends Controller{
     }
 
     public function create(){
-        return view('page.buku.tambah');
+        $responseAuthor = HttpClients::fetch('GET', 'http://127.0.0.1:1234/api/author');
+        $responseKategori = HttpClients::fetch('GET', 'http://127.0.0.1:1234/api/kategori');
+        $getAuthor = $responseAuthor['data'];
+        $getKategori = $responseKategori['data'];
+        return view('page.buku.tambah', compact('getAuthor', 'getKategori'));
     }
-    
+
     public function store(Request $request){
-        HttpClients::fetch('GET', 'http://127.0.0.1:1234/api/buku', $request->all(), $request->file('foto'));
+        $getRequest = $request->all();        
+        
+        if($request->file() != null){
+            $files = ['foto' => $request->file('foto')];
+        } else{
+            $files = $request->file();
+        }
+        // dd($request->all(), $files);
+        $response = HttpClients::fetch('POST', 'http://127.0.0.1:1234/api/buku', $getRequest, $files);
+        // dd($getRequest);
         return redirect()->route('home');
     }
     
     public function edit($id){
-        $getData = HttpClients::fetch('GET', 'http://127.0.0.1:1234/api/buku/' . $id)['data'];
-        return view('page.buku.tambah', $getData);
+        $responseData = HttpClients::fetch('GET', 'http://127.0.0.1:1234/api/buku/' . $id);
+        $responseAuthor = HttpClients::fetch('GET', 'http://127.0.0.1:1234/api/author');
+        $responseKategori = HttpClients::fetch('GET', 'http://127.0.0.1:1234/api/kategori');
+        $getAuthor = $responseAuthor['data'];
+        $getData = $responseData['data']['buku'];
+        // dd($getData);
+        // die;
+        $getKategori = $responseKategori['data'];
+        return view('page.buku.edit', compact('getAuthor','getData',  'getKategori'));
     }
 
     public function update(Request $request, $id){
-        return view('page.buku.tambah');
+        $getRequest = $request->all();        
+        // dd($getRequest);
+        // die;
+        if($request->file() != null){
+            $files = ['foto' => $request->file('foto')];
+        } else{
+            $files = $request->file();
+        }
+        // dd($request->all(), $files);
+        $response = HttpClients::fetch('PUT', 'http://127.0.0.1:1234/api/buku/' . $id . '/update', $getRequest, $files);
+        return redirect()->route('home');
+    }
+
+    public function delete($id){
+        HttpClients::fetch('DELETE', 'http://127.0.0.1:1234/api/buku/' . $id . '/delete');
+        return redirect()->route('home');
     }
 }
